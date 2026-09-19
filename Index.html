@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aklilu — Software Engineering Student & AI/Tech Content Creator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0f1a;
+    --surface: #101828;
+    --surface-2: #16213a;
+    --line: #223050;
+    --text: #e7ecf4;
+    --muted: #8b97ae;
+    --cyan: #3fd0c9;
+    --amber: #f2a94e;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .wrap{ max-width: 1000px; margin: 0 auto; padding: 0 28px; }
+  h1, h2, h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 600; letter-spacing: -0.01em; }
+  a { color: inherit; }
+
+  nav{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(10,15,26,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height: 64px; }
+  .brand{ font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: var(--cyan); }
+  .brand b{ color: var(--text); font-weight:500; }
+  .navlinks{ display:flex; gap: 28px; list-style:none; }
+  .navlinks a{ text-decoration:none; color: var(--muted); font-size: 0.92rem; transition: color 0.15s; }
+  .navlinks a:hover{ color: var(--text); }
+
+  .hero{ padding: 90px 0 90px; }
+  .hero .greeting{ font-family: 'JetBrains Mono', monospace; color: var(--amber); font-size: 0.95rem; margin-bottom: 18px; }
+  .hero h1{ font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.15; margin-bottom: 22px; max-width: 700px; }
+  .hero h1 .cyan{ color: var(--cyan); }
+  .hero p.lede{ color: var(--muted); font-size: 1.08rem; max-width: 560px; margin-bottom: 32px; }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding: 12px 22px; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.18s ease; border: 1px solid transparent;
+  }
+  .btn-solid{ background: var(--cyan); color: #06201d; }
+  .btn-solid:hover{ background: #58ddd6; }
+  .btn-line{ border-color: var(--line); color: var(--text); }
+  .btn-line:hover{ border-color: var(--cyan); color: var(--cyan); }
+
+  .terminal{
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.6); max-width: 560px; margin-top: 40px;
+  }
+  .terminal-bar{ display:flex; align-items:center; gap:8px; padding: 12px 16px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .dot{ width:10px; height:10px; border-radius:50%; }
+  .dot.r{ background:#ff5f57; } .dot.y{ background:#febc2e; } .dot.g{ background:#28c840; }
+  .terminal-title{ font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--muted); margin-left: 6px; }
+  .terminal-body{ font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; padding: 20px 22px 26px; color: #c9d4e6; min-height: 190px; }
+  .terminal-body .prompt{ color: var(--cyan); }
+  .terminal-body .out{ color: var(--muted); }
+  .terminal-line{ opacity:0; animation: reveal 0.3s forwards; white-space: pre-wrap; }
+  .cursor{ display:inline-block; width:7px; height:1em; background: var(--cyan); vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+  @keyframes reveal{ to{ opacity:1; } }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  section{ padding: 80px 0; border-top: 1px solid var(--line); }
+  .section-head{ margin-bottom: 40px; }
+  .section-head .kicker{ font-family: 'JetBrains Mono', monospace; color: var(--amber); font-size: 0.85rem; margin-bottom: 10px; }
+  .section-head h2{ font-size: 1.8rem; }
+  .section-head p{ color: var(--muted); max-width: 560px; margin-top: 10px; }
+
+  .about-text{ color: var(--muted); max-width: 640px; font-size: 1.02rem; }
+  .about-text p{ margin-bottom: 16px; }
+  .about-text b{ color: var(--text); font-weight: 500; }
+
+  .skill-groups{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .skill-group h3{ font-size: 1rem; color: var(--text); margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .skill-group ul{ list-style:none; }
+  .skill-group li{ color: var(--muted); padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 0.94rem; }
+  .skill-group li:last-child{ border-bottom:none; }
+
+  .content-block{ background: linear-gradient(160deg, var(--surface-2), var(--surface)); border: 1px solid var(--line); border-radius: 10px; padding: 30px 32px; }
+  .content-block .fmt{ font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--cyan); display:block; margin-bottom: 14px; }
+  .content-block p{ color: var(--muted); font-size: 0.98rem; }
+  .content-block p + p{ margin-top: 12px; }
+
+  .contact-row{ display:flex; flex-wrap:wrap; gap: 16px 32px; margin-top: 26px; }
+  .contact-row a{
+    text-decoration:none; color: var(--text); font-size: 0.98rem;
+    border-bottom: 1px solid var(--line); padding-bottom: 3px; transition: border-color 0.15s, color 0.15s;
+  }
+  .contact-row a:hover{ border-color: var(--cyan); color: var(--cyan); }
+
+  footer{ padding: 32px 0 48px; color: var(--muted); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
+
+  @media (max-width: 780px){
+    .skill-groups{ grid-template-columns: 1fr; }
+    .navlinks{ display:none; }
+    .terminal{ max-width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .terminal-line{ opacity:1; animation:none; }
+    .cursor{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><b>aklilu</b>@mekelle</div>
+    <ul class="navlinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#content">Content</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="greeting">ሰላም — selam, I'm</div>
+    <h1>Aklilu. Software engineering student and <span class="cyan">AI/tech content creator</span>.</h1>
+    <p class="lede">Based in Mekelle, Ethiopia. I'm studying software engineering, exploring full-stack web development and Linux, and building an audience around AI and tech topics in Tigrinya and English.</p>
+    <div class="hero-actions">
+      <a href="#content" class="btn btn-solid">See what I make</a>
+      <a href="https://github.com/aklilut40-code" target="_blank" class="btn btn-line">GitHub profile</a>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="terminal-title">aklilu — zsh</span>
+      </div>
+      <div class="terminal-body" id="termBody"></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">// about</div>
+      <h2>A bit about me</h2>
+    </div>
+    <div class="about-text">
+      <p>I'm a <b>software engineering student in Mekelle, Ethiopia</b>, currently building a foundation in full-stack web development — leaning into Node.js, Express, Fastify, and React.</p>
+      <p>Outside of coursework, I've been exploring Linux day to day, testing what's actually practical for real workflows on Ubuntu.</p>
+      <p>I'm also an <b>AI and tech content creator</b>, building a following on Facebook with content in both Tigrinya and English — sharing AI-generated imagery and tech topics with a focus on real engagement, not just views.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">// stack</div>
+      <h2>What I work with</h2>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3>Web & backend</h3>
+        <ul>
+          <li>JavaScript / Node.js</li>
+          <li>Express & Fastify</li>
+          <li>React</li>
+          <li>REST APIs</li>
+          <li>HTML5 / CSS3</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Tools & environment</h3>
+        <ul>
+          <li>Git & GitHub</li>
+          <li>Ubuntu / Linux</li>
+          <li>Python (ReportLab for PDFs)</li>
+          <li>Vercel deployment</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Content & growth</h3>
+        <ul>
+          <li>Bilingual writing (Tigrinya / English)</li>
+          <li>AI-generated imagery</li>
+          <li>Engagement-focused captions</li>
+          <li>Structured educational guides</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="content">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">// what I make</div>
+      <h2>Content & guides</h2>
+      <p>Two threads that feed each other: learning to code, and explaining what I learn.</p>
+    </div>
+    <div class="content-block">
+      <span class="fmt">ONGOING</span>
+      <p>I write structured, beginner-friendly guides as I learn — covering topics like React fundamentals and Node.js interview prep — generated as PDFs with a consistent navy/blue/cyan theme.</p>
+      <p>On Facebook, I post in Tigrinya and English — pairing AI-generated imagery with tech explainers, written to spark comments and real discussion rather than passive scrolling.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">// say hello</div>
+      <h2>Let's connect</h2>
+      <p>Open to collaborating on projects, content, or just talking code.</p>
+    </div>
+    <div class="contact-row">
+      <a href="https://github.com/aklilut40-code" target="_blank">GitHub → aklilut40-code</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Aklilu · Mekelle, Ethiopia</div>
+</footer>
+
+<script>
+(function(){
+  const lines = [
+    { html: '<span class="prompt">$</span> whoami', delay: 0 },
+    { html: '<span class="out">aklilu — software engineering student</span>', delay: 550 },
+    { html: '<span class="prompt">$</span> cat focus.txt', delay: 1150 },
+    { html: '<span class="out">full-stack dev · Linux · AI/tech content</span>', delay: 1700 },
+    { html: '<span class="prompt">$</span> ls languages/', delay: 2300 },
+    { html: '<span class="out">tigrinya   english</span>', delay: 2850 },
+    { html: '<span class="prompt">$</span> echo $STATUS', delay: 3450 },
+    { html: '<span class="out">building, learning, shipping <span class="cursor"></span></span>', delay: 4000 }
+  ];
+  const body = document.getElementById('termBody');
+  lines.forEach(l => {
+    const div = document.createElement('div');
+    div.className = 'terminal-line';
+    div.style.animationDelay = l.delay + 'ms';
+    div.innerHTML = l.html;
+    body.appendChild(div);
+  });
+})();
+</script>
+
+</body>
+</html>
